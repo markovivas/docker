@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    ports:
+      - "4533:4533"
+    volumes:
+      - ./music:/music        # sua pasta de musicas (mesma pasta do .yml)
+      - ./data:/data          # dados da aplicacao (playlists, config, usuÃ¡rios)
+    environment:
+      - ND_LOGLEVEL=info
+      - ND_SCANINTERVAL=1m    # reescaneia a pasta de musicas a cada 1 minuto
+      - ND_BASEURL=           # deixe vazio se for usar em localhost
+      - ND_SESSIONTIMEOUT=24h # tempo que o login fica valido
+    restart: unless-stopped
