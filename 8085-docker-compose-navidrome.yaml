@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    volumes:
+      - ./music:/music
+      - ./data/navidrome:/data
+    environment:
+      - ND_LOGLEVEL=info
+      - ND_SCANINTERVAL=1m
+      - ND_SESSIONTIMEOUT=24h
+    ports:
+      - "8085:4533"
+    restart: unless-stopped

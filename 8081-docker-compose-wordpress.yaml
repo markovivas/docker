@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  wordpress_db:
+    image: mariadb:latest
+    container_name: wordpress_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspass
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks:
+      - wordpress_network
+    restart: unless-stopped
+
+  wordpress_app:
+    depends_on:
+      - wordpress_db
+    image: wordpress:latest
+    container_name: wordpress_app
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./data/wordpress:/var/www/html
+    ports:
+      - "8081:80"
+    networks:
+      - wordpress_network
+    restart: unless-stopped
+
+networks:
+  wordpress_network:
+    driver: bridge

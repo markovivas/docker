@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: onlyoffice
+    volumes:
+      - ./data/onlyoffice:/var/www/onlyoffice/Data
+    ports:
+      - "8084:80"
+    restart: unless-stopped
